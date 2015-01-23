@@ -17,21 +17,21 @@ class Chef
     # This class copies cookbook pinnings between environments
     class PinningsPromote < Chef::Knife
       require 'chef/knife/pinnings_mixin'
-      banner 'knife pinnings promote <SOURCE_ENV> <TARGET_ENV>'
+      banner "knife pinnings promote <SOURCE_ENV> <TARGET_ENV> ['cookbook_regex']"
 
       def run
-        unless name_args.length > 2
+        unless name_args.length > 1
           ui.fatal('You must specify a source and target environment.')
           exit 255
         end
         source_env = Environment.load(name_args[0])
         target_env = Environment.load(name_args[1])
-        cookbook_regex = name_args || '.*'
-        display_pinnings_table([source_env, target_env], '.*')
-        copy_pinnings(source_env, target_env)
+        cookbook_regex = name_args[2] || '.*'
+        display_pinnings_table([source_env, target_env], cookbook_regex)
+        copy_pinnings(source_env, target_env, cookbook_regex)
       end
 
-      def copy_pinnings(source_env, target_env)
+      def copy_pinnings(source_env, target_env, cookbook_regex)
         ui.msg('')
         ui.confirm("Do you want to write to #{target_env.name}")
         ui.msg('')

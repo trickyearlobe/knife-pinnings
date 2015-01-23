@@ -43,13 +43,16 @@ To find cookbooks in acceptance or production with names beginning with app_
 ### Comparing environments
 To get a color coded comparison grid showing whats not up to date and whats missing.
 
-    knife compare ENV1 ENV2
+    knife pinnings compare ['environmnet_regex'] ['cookbook_regex']
 
+To compare the versions of skunk app cookbooks in dev, acceptance and production
+
+    knife pinnings compare '(^dev$|^acceptance$|^production$)' '^skunk_app.*'
 
 ### Promoting pinnings between environments
 Promote pinnings from one environment to another.
 
-    knife pinnings promote ENV1 ENV2
+    knife pinnings promote ENV1 ENV2 ['cookbook_regex']
 
 NOTE: Pinnings which are missing in the source environment will NOT be deleted from the target.
 
