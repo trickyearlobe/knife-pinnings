@@ -1,43 +1,71 @@
 # knife-pinnings
 
-This gem extends Chef's knife command to view cookbook pinnings in all your different chef environments
+[![Gem Version](https://badge.fury.io/rb/knife-pinnings.svg)](http://badge.fury.io/rb/knife-pinnings)
+
+This gem extends Chef's knife command to manage version pinnings in your Chef environments
+
+* Get a list of all pinnings in all environments
+* Compare pinnings across multiple environments
+* Promote pinnings between environments
+* Wipe pinnings from environments
 
 ## Installation
-
-Add this line to your application's Gemfile:
-
-
-    gem 'knife-pinnings'
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
+Pretty standard stuff....
 
     $ gem install knife-pinnings
 
 ## Usage
 
-The knife-pinnings plugin uses ruby (PCRE) regex for environment and cookbook filtering
+A lot of `knife pinning` commands use the power of ruby's REGEX matching for flexible matching of environment and cookbook names.
 
-    $ knife pinnings list ['cookbook_regex'] ['environment_regex']
+* You can try out REGEX expressions in this editor <http://rubular.com>
+* You can learn about ruby REGEX here <http://www.tutorialspoint.com/ruby/ruby_regular_expressions.htm>
+* REGEX with wildcards may need to be wrapped in single quotes to hide them from the shell
 
-Note: It can take a long time to get results if you have a lot of environments as `knife pinnings` has to make individual API requests to get details on each environment.
+### Getting a list of pinnings in multiple environments
+In general you can use
+```bash
+$ knife pinnings list ['environment_regex'] ['cookbook_regex']
+```
 
-
-To find cookbooks begining with app_
-(Note the use of '' around wildcards to prevent interpretation by the shell)
+To find cookbooks begining with app_ in any environment
 
     $ knife pinnings '.*' '^app_.*'
 
-To find cookbooks in production with names beginning with app_
+To find cookbooks beginning with app_ but only in production
 
     $ knife pinnings list '^production$' '^app_.*$'
 
 To find cookbooks in acceptance or production with names beginning with app_
 
     $ knife pinnings list '(^accept.*|^production$)' '^app_.*'
+
+### Comparing environments
+To get a color coded comparison grid showing whats not up to date and whats missing.
+
+    knife compare ENV1 ENV2
+
+
+### Promoting pinnings between environments
+Promote pinnings from one environment to another.
+
+    knife pinnings promote ENV1 ENV2
+
+NOTE: Pinnings which are missing in the source environment will NOT be deleted from the target.
+
+### Wiping pinnings in an environment
+
+To wipe pinnings in a single environment
+
+    knife pinnings wipe ENVIRONMENT ['cookbook_regex']
+
+To wipe the pinnings from development
+
+    knife pinnings wipe development
+
+To wipe my skunk app cookbooks from development
+
+    knife pinnings wipe development '^skunk_app.*'
 
 ## Contributing
 

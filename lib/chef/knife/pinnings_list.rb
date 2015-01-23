@@ -14,37 +14,16 @@
 
 class Chef
   class Knife
+    # This class implements knife pinnings list ['environment_regex'] ['cookbook_regex']
     class PinningsList < Chef::Knife
-
-      banner "knife pinnings list [environment_regex] [cookbook_regex]"
+      require 'chef/knife/pinnings_mixin'
+      banner "knife pinnings list ['environment_regex'] ['cookbook_regex']"
 
       def run
-        rest = Chef::REST.new(Chef::Config[:chef_server_url])
         environment_regex = "#{name_args[0] || '.*'}"
         cookbook_regex = "#{name_args[1] || '.*'}"
-
-        # Grab a list of environments from Chef and iterate through them
-        environments = rest.get_rest("/environments").to_hash
-        environments.each do |env_name,env_url|
-          
-          # Did the user want to see this environment?
-          if (env_name =~ /#{environment_regex}/ )
-
-            # If so grab the environment detail and display it
-            env_detail = rest.get_rest("/environments/#{env_name}").to_hash
-            ui.msg(ui.color("Environment: #{env_name}", :yellow))
-
-            # Iterate through the pinnings in this environment
-            env_detail['cookbook_versions'].each do |cookbook_name,cookbook_version|
-
-              # Did the user want to see this cookbook pinning?
-              if (cookbook_name =~ /#{cookbook_regex}/)
-                ui.msg("  #{cookbook_name} #{cookbook_version}")
-              end
-            end
-            
-          end
-        end
+        environments = filter_environments(Environment.list(true), environment_regex)
+        display_environments(environments, cookbook_regex)
       end
     end
   end

@@ -12,10 +12,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# rubocop:disable Style/Documentation
-module Knife
-  module Pinnings
-    VERSION = '1.1.0'
-    MAJOR, MINOR, TINY = VERSION.split('.')
+class Chef
+  class Knife
+    # This class implements knife pinnings list ['environment_regex'] ['cookbook_regex']
+    class PinningsCompare < Chef::Knife
+      require 'chef/knife/pinnings_mixin'
+      banner "knife pinnings compare ['environment_regex'] ['cookbook_regex']"
+
+      def run
+        environment_regex = "#{name_args[0] || '.*'}"
+        cookbook_regex = "#{name_args[1] || '.*'}"
+        environments = filter_environments(Environment.list(true), environment_regex)
+        display_pinnings_table(environments, cookbook_regex)
+      end
+    end
   end
 end

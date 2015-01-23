@@ -7,12 +7,14 @@ Bundler::GemHelper.install_tasks
 
 task :default => :spec
 
-desc "Run specs"
+desc 'Run specs'
 RSpec::Core::RakeTask.new(:spec) do |spec|
   spec.pattern = 'spec/**/*_spec.rb'
 end
 
-gem_spec = eval(File.read("knife-pinnings.gemspec"))
+# rubocop:disable Lint/Eval
+gem_spec = eval(File.read('knife-pinnings.gemspec'))
+# rubocop:enable Lint/Eval
 
 RDoc::Task.new do |rdoc|
   rdoc.rdoc_dir = 'rdoc'
