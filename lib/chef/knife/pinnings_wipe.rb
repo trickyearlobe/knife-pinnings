@@ -17,7 +17,7 @@ class Chef
     # This class implements knife pinnings list ['environment_regex'] ['cookbook_regex']
     class PinningsWipe < Chef::Knife
       require 'chef/knife/pinnings_mixin'
-      banner "knife pinnings wipe ENVIRONMENT ['cookbook_regex']"
+      banner 'knife pinnings wipe ENVIRONMENT [COOKBOOK_REGEX]'
 
       def run
         if name_args.length < 1
@@ -31,17 +31,16 @@ class Chef
         ui.msg('')
         ui.confirm("Do you want to wipe cookbooks in #{environment.name}")
         ui.msg('')
-        wipe(environment,cookbook_regex)
+        wipe(environment, cookbook_regex)
       end
 
       def wipe(environment, cookbook_regex)
-        environment.cookbook_versions.delete_if do |name,version|
+        environment.cookbook_versions.delete_if do |name, _|
           name =~ /#{cookbook_regex}/
         end
         environment.save
         ui.msg('Done')
       end
-
     end
   end
 end

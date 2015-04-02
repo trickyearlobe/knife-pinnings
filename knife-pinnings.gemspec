@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = Knife::Pinnings::VERSION
   spec.authors       = ['Richard Nixon']
   spec.email         = ['richard.nixon@btinternet.com']
-  spec.summary       = 'Extend Chef\'s Knife command to list, compare, promote and wipe pinnings across environments'
-  spec.description   = 'List, compare, promote or wipe pinnings across chef environments. Some commands use REGEX matches to do bulk pinning work.'
+  spec.summary       = 'Chef knife plugin to set, list, compare, copy and delete cookbook pinnings across environments'
+  spec.description   = 'Chef knife plugin to set, list, compare, copy and delete cookbook pinnings across environments'
   spec.homepage      = 'https://github.com/trickyearlobe/knife-pinnings'
   spec.license       = 'Apache 2.0'
 
@@ -24,8 +24,9 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rspec'
   spec.add_development_dependency 'bundler', '~> 1.7'
   spec.add_development_dependency 'rake', '~> 10.0'
+  spec.add_development_dependency 'rubocop'
   spec.add_development_dependency 'guard'
   spec.add_development_dependency 'guard-rake'
   spec.add_development_dependency 'guard-shell'
-  spec.add_development_dependency 'rubocop'
+  spec.add_development_dependency 'guard-rubocop'
 end

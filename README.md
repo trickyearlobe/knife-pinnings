@@ -1,9 +1,8 @@
 # knife-pinnings
 
-[![Gem Version](https://badge.fury.io/rb/knife-pinnings.svg)](http://badge.fury.io/rb/knife-pinnings)
-
 This gem extends Chef's knife command to manage version pinnings in your Chef environments
 
+* Set a cookbook pinning explicitly or by using metadata.rb
 * Get a list of all pinnings in all environments
 * Compare pinnings across multiple environments
 * Promote pinnings between environments
@@ -16,17 +15,26 @@ Pretty standard stuff....
 
 ## Usage
 
-A lot of `knife pinning` commands use the power of ruby's REGEX matching for flexible matching of environment and cookbook names.
+A lot of knife-pinnings commands use ruby's regular expressions flexible filtering.
 
-* You can try out REGEX expressions in this editor <http://rubular.com>
-* You can learn about ruby REGEX here <http://www.tutorialspoint.com/ruby/ruby_regular_expressions.htm>
-* REGEX with wildcards may need to be wrapped in single quotes to hide them from the shell
+* You can learn about regular expressions here <http://www.tutorialspoint.com/ruby/ruby_regular_expressions.htm>
+* You can try out regular expressions in this editor <http://rubular.com>
+* Wildcards in regular expressions may need to be wrapped in single quotes to hide them from shell globbing.
 
-### Getting a list of pinnings in multiple environments
+### Set pinnings
+To explicitly specify the cookbook name and version
+
+	$ knife pinnings set <environment> <cookbook> <version>
+
+To take the name and version from the metadata.rb in the current directory use
+
+	$ knife pinnings set <environment>
+
+
+### List pinnings
 In general you can use
-```bash
-$ knife pinnings list ['environment_regex'] ['cookbook_regex']
-```
+
+	$ knife pinnings list ['environment_regex'] ['cookbook_regex']
 
 To find cookbooks begining with app_ in any environment
 
@@ -40,8 +48,8 @@ To find cookbooks in acceptance or production with names beginning with app_
 
     $ knife pinnings list '(^accept.*|^production$)' '^app_.*'
 
-### Comparing environments
-To get a color coded comparison grid showing whats not up to date and whats missing.
+### Compare pinnings
+To get a color coded comparison grid showing what's pinned in different environments
 
     knife pinnings compare ['environmnet_regex'] ['cookbook_regex']
 
@@ -49,14 +57,14 @@ To compare the versions of skunk app cookbooks in dev, acceptance and production
 
     knife pinnings compare '(^dev$|^acceptance$|^production$)' '^skunk_app.*'
 
-### Promoting pinnings between environments
-Promote pinnings from one environment to another.
+### Promote pinnings
+Promote pinnings from one environment to another (eg. from acceptance to pre-prod).
 
     knife pinnings promote ENV1 ENV2 ['cookbook_regex']
 
 NOTE: Pinnings which are missing in the source environment will NOT be deleted from the target.
 
-### Wiping pinnings in an environment
+### Wipe pinnings
 
 To wipe pinnings in a single environment
 

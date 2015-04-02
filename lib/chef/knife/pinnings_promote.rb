@@ -17,7 +17,7 @@ class Chef
     # This class copies cookbook pinnings between environments
     class PinningsPromote < Chef::Knife
       require 'chef/knife/pinnings_mixin'
-      banner "knife pinnings promote <SOURCE_ENV> <TARGET_ENV> ['cookbook_regex']"
+      banner 'knife pinnings promote SOURCE_ENV TARGET_ENV [COOKBOOK_REGEX]'
 
       def run
         unless name_args.length > 1

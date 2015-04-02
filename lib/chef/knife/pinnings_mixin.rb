@@ -17,7 +17,7 @@ def version_strip(version_string)
   version_string.match(/()[0-9]*\.[0-9]*\.[0-9]*/).to_s
 end
 
-# This method takes an array of environments and filters then using a REGEX
+# This method takes an array of environments and filters them using a REGEX
 def filter_environments(environments, environment_regex)
   filtered_environments = []
   environments.each do |name, environment|
@@ -39,7 +39,7 @@ def display_pinnings_table(environments, cookbook_regex)
   ui.msg(
     ui.list(
       build_pinnings_table(environments, cookbook_regex),
-      :columns_across,
+      :uneven_columns_across,
       environments.length + 1
     )
   )
@@ -100,5 +100,5 @@ def display_cookbooks(cookbooks, cookbook_regex)
   filter_cookbooks(cookbooks, cookbook_regex).each do |name, version|
     rows << "  #{name}" << version_strip(version)
   end
-  ui.msg(ui.list(rows, :columns_across, 2)) if rows.length > 0
+  ui.msg(ui.list(rows, :uneven_columns_across, 2)) if rows.length > 0
 end

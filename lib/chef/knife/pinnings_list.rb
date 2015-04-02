@@ -17,7 +17,7 @@ class Chef
     # This class implements knife pinnings list ['environment_regex'] ['cookbook_regex']
     class PinningsList < Chef::Knife
       require 'chef/knife/pinnings_mixin'
-      banner "knife pinnings list ['environment_regex'] ['cookbook_regex']"
+      banner 'knife pinnings list [ENVIRONMENT_REGEX] [COOKBOOK_REGEX]'
 
       def run
         environment_regex = "#{name_args[0] || '.*'}"

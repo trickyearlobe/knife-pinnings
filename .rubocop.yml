@@ -1,7 +1,7 @@
 # In these days of widescreen TV and big monitors
 # a line length of 80 sounds a bit unreasonable
 Metrics/LineLength:
-  Max: 120
+  Max: 150
 
 # Actually, I don't like hash rockets as they look untidy
 # If Rubocop doesn't use them in the config file, why should I ?

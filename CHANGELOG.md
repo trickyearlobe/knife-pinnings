@@ -9,6 +9,14 @@ Given a version xx.yy.zz
 * A change in yy is a non-breaking change (usually a new feature)
 * A change in zz is a major change which likely breaks stuff that depends on us.
 
+## 1.1.2
+* Use variable column spacing in grid (reduces width of grid)
+
+## 1.1.1
+* Fix documentation to show regex options
+* Fix regex processing for display in pinnings wipe
+* Fix banner text to display regex options
+
 ## 1.1.0
 * Improved performance by using search instead of iteration to get environment detail.
 * Added support for comparing pinnings between environments with color highlighting
