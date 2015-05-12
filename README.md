@@ -78,6 +78,14 @@ To wipe my skunk app cookbooks from development
 
     knife pinnings wipe development '^skunk_app.*'
 
+
+### Local cookbook metadata
+
+To get local cookbook metadata for use in shell scripts
+
+	knife pinnings local cookbook [name|version]
+
+
 ## Contributing
 
 1. Fork it ( <https://github.com/trickyearlobe/knife-pinnings/fork> )

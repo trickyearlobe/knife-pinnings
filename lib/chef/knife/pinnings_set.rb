@@ -22,7 +22,7 @@ class Chef
         case name_args.length
         when 1 # Just environment was specified so get name/version from metadata
           @metadata = Chef::Cookbook::Metadata.new
-          @metadata.from_file(File.join(Dir.pwd,'metadata.rb'))
+          @metadata.from_file(File.join(Dir.pwd, 'metadata.rb'))
           @cookbook_name    = @metadata.name
           @cookbook_version = @metadata.version
         when 3 # Environment, Cookbook and Version explicitly specified so use those

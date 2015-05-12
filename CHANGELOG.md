@@ -5,9 +5,13 @@ More information at <http://semver.org/>
 
 Given a version xx.yy.zz
 
-* A change in zz is a bug fix
+* A change in xx is a major change which likely breaks stuff that depends on us.
 * A change in yy is a non-breaking change (usually a new feature)
-* A change in zz is a major change which likely breaks stuff that depends on us.
+* A change in zz is a bug fix
+
+## 1.3.0
+* Add `knife pinnings local cookbook [name|version]`
+* Clean up some complexity in grid code
 
 ## 1.1.2
 * Use variable column spacing in grid (reduces width of grid)

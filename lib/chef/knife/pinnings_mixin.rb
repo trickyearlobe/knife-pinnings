@@ -76,16 +76,23 @@ def build_pinnings_table(environments, cookbook_regex)
 end
 
 def add_color(row)
-  # The first element in the row is the cookbook name so skip that
-  row[0] = ui.color(row[0], :white)
-  row_color = 'green'
-  row[2..row.size].each do |version|
-    row_color = 'red' unless version == row[1]
-  end
-  for i in 1..row.size - 1
-    row[i] = ui.color(row[i], row_color.to_sym)
+  label, *elements = row
+  label = ui.color(label, :white)
+
+  element_color = elements_identical?(elements) ? :green : :red
+
+  row = [label]
+  elements.each do |element|
+    row << ui.color(element, element_color)
   end
   row
+end
+
+def elements_identical?(elements)
+  elements.each do |element|
+    return false unless element == elements.first
+  end
+  true
 end
 
 def display_environments(environments, cookbook_regex)
