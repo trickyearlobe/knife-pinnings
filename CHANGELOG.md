@@ -9,6 +9,9 @@ Given a version xx.yy.zz
 * A change in yy is a non-breaking change (usually a new feature)
 * A change in zz is a bug fix
 
+## 1.4.0
+* Add a pinnings 'set auto' command that discover policies from a chef  environment and solve versions
+
 ## 1.3.0
 * Add `knife pinnings local cookbook [name|version]`
 * Clean up some complexity in grid code
