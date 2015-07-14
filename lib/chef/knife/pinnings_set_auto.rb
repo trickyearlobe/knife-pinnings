@@ -46,7 +46,7 @@ class Chef
         ui.info("will attempt resolving the dependencies with chef resolver...")
         solution_pinnings = solve_recipes(rest, @environment, cookbooks_with_contraints)
         ui.msg('')
-        ui.info("chef resolved the cokkbook dependencies for all nodes from #{@environment_name} as follow:")
+        ui.info("chef resolved the cookbook dependencies for all nodes from #{@environment_name} as follow:")
         solution_pinnings.map{|key,val| "#{key} --- #{val}"}.each{|entry| ui.info(entry)}
         
         ui.msg('')
