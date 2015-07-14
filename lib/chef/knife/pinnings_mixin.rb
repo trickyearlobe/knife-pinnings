@@ -75,6 +75,15 @@ def build_pinnings_table(environments, cookbook_regex)
   cookbooks_grid
 end
 
+def set_environnment_pinnings(environment, pinnings) 
+
+  pinnings.each do |name,pinning|
+    environment.cookbook_versions[name] = pinning
+  end
+  environment.save
+
+end
+
 def add_color(row)
   label, *elements = row
   label = ui.color(label, :white)
@@ -108,4 +117,67 @@ def display_cookbooks(cookbooks, cookbook_regex)
     rows << "  #{name}" << version_strip(version)
   end
   ui.msg(ui.list(rows, :uneven_columns_across, 2)) if rows.length > 0
+end
+
+def nodes_in(rest, environment)
+  rest.get_rest("/environments/#{environment}/nodes").keys
+end
+
+def cookbooks_used_by(rest, environment, nodes)
+  recipes = []
+  roles = []
+  nodes.each do |node|
+    response = rest.get_rest("/nodes/#{node}").run_list
+    _recipes = response.recipe_names 
+    _roles = response.role_names
+    recipes = recipes | (if (_recipes==nil) then [] else _recipes end)
+    roles = roles | (if (_roles==nil) then [] else _roles end)
+  end
+  recipes_from_roles = []
+  roles.each do |role| 
+    run_list = [Chef::RunList::RunListItem.new("role[#{role}]")]
+    expansion = Chef::RunList::RunListExpansionFromAPI.new(environment, run_list, rest)
+    expansion.expand
+    recipes_from_roles = recipes_from_roles | expansion.recipes
+  end
+  (recipes | recipes_from_roles).map { |r| r.split('@').first.split('::').first }
+end
+
+def cookbooks_merged_with_version_constraints(cookbooks, cookbook_version_constraints)
+  cookbooks_with_contraints = cookbooks.dup
+  cookbook_version_constraints.each do |cookbook_version_constraint|
+    if (not cookbook_version_constraint_valid?(cookbook_version_constraint))
+      raise "cookbook constraint #{cookbook_version_constraint} is not valid, it should have format like zed@1.2.3"
+    else
+      cookbook_name = cookbook_version_constraint.split('@')[0]
+      if(cookbooks_with_contraints.include?(cookbook_name))
+        cookbooks_with_contraints.delete(cookbook_name)
+      end
+      cookbooks_with_contraints.push(cookbook_version_constraint)
+    end
+  end
+  cookbooks_with_contraints
+end
+
+def cookbook_version_constraint_valid?(cookbook_constraint)
+  if (not cookbook_constraint.include?('@'))
+    ui.fatal("cookbook constraint #{cookbook_constraint} should include @")
+    false
+  end
+  if ( ( cookbook_constraint.split('@')[1] =~ /\A\d+(?:\.\d+)*\z/) != 0 )
+    ui.fatal("cookbook constraint #{cookbook_constraint} does not have valid version number")
+    false
+  end
+  true
+end
+
+def solve_recipes(rest, environment, cookbooks_with_contraints)
+  run_list = Hash.new
+  run_list["run_list"] = cookbooks_with_contraints
+  response = rest.post_rest("/environments/#{environment}/cookbook_versions",{:run_list => cookbooks_with_contraints})
+  solution = Hash.new
+  response.sort.each do |name, cb|
+    solution[name]=cb.version
+  end
+  return solution
 end
