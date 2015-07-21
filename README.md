@@ -30,7 +30,7 @@ To take the name and version from the metadata.rb in the current directory use
 
 	$ knife pinnings set <environment>
 
-To leverage chef resolver to find out all cookbook versions used by all nodes of a given chef environment and set them back in the environment (typically latest versions will be resolved)
+To leverage chef resolver to find out all cookbook versions used by all nodes of a given chef environment and set them back in the environment (typically latest versions will be resolved, but not always)
 
     $ knife pinnings set auto <environment>
 

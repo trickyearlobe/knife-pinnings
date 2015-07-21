@@ -123,9 +123,10 @@ def nodes_in(rest, environment)
   rest.get_rest("/environments/#{environment}/nodes").keys
 end
 
-def cookbooks_used_by(rest, environment, nodes)
+def cookbooks_used_by(rest, environment)
   recipes = []
   roles = []
+  nodes = nodes_in(rest, environment)
   nodes.each do |node|
     response = rest.get_rest("/nodes/#{node}").run_list
     _recipes = response.recipe_names 
