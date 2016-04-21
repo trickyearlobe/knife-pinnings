@@ -9,6 +9,12 @@ Given a version xx.yy.zz
 * A change in yy is a non-breaking change (usually a new feature)
 * A change in zz is a bug fix
 
+## 1.4.3
+* Remove dependency on "chef" as few people deploy Chef as a GEM anymore. Makes life easier deploying to artifact repos.
+
+## Some missing versions from 1.4.1 to 1.4.2
+* Some stuff
+
 ## 1.4.0
 * Add a pinnings 'set auto' command that discover policies from a chef  environment and solve versions
 

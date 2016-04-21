@@ -15,7 +15,7 @@
 # rubocop:disable Style/Documentation
 module Knife
   module Pinnings
-    VERSION = '1.4.2'
+    VERSION = '1.4.3'
     MAJOR, MINOR, TINY = VERSION.split('.')
   end
 end
