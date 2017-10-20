@@ -14,11 +14,11 @@
 
 class Chef
   class Knife
-    # This class knife pinnings set auto ['environment'] ['cookbook_regex']
+    # This class implements knife pinnings set auto <environment> [cookbook[@version]]
     class PinningsSetAuto < Chef::Knife
       require 'chef/knife/pinnings_mixin'
       banner 'knife pinnings set auto ENVIRONMENT [COOKBOOK_VERSION_CONSTRAINTS]'
-      FakeChefEnvironmentStruct = Struct.new :name, :cookbook_versions 
+      FakeChefEnvironmentStruct = Struct.new :name, :cookbook_versions
 
       def run
         case name_args.length
@@ -35,7 +35,7 @@ class Chef
           exit 255
         end
         @environment = Environment.load(@environment_name)
-        nodes = nodes_in(rest, @environment)  
+        nodes = nodes_in(rest, @environment)
         ui.info("#{nodes.length} nodes have been found in environment #{@environment_name}: #{nodes.to_s}")
         cookbooks = cookbooks_used_by(rest, @environment_name)
         ui.info("#{cookbooks.length} recipes have been found for the nodes: #{cookbooks.to_s}")
@@ -54,7 +54,7 @@ class Chef
         environments.push(@environment)
         environments.push(FakeChefEnvironmentStruct.new('chef_resolver_solution',solution_cookbook_versions))
         display_pinnings_table(environments, @cookbook_regex)
-        
+
         ui.msg('')
         ui.confirm("Do you want to set these cookbook versions on chef environment:#{@environment_name} ")
         ui.msg('')

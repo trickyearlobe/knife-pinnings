@@ -14,7 +14,7 @@
 
 class Chef
   class Knife
-    # This class implements knife pinnings list ['environment_regex'] ['cookbook_regex']
+    # This class implements knife pinnings set <environment> [cookbook version]
     class PinningsSet < Chef::Knife
       banner 'knife pinnings set ENVIRONMENT [COOKBOOK VERSION]'
 
