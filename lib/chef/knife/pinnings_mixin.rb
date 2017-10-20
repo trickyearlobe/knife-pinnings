@@ -75,7 +75,7 @@ def build_pinnings_table(environments, cookbook_regex)
   cookbooks_grid
 end
 
-def set_environnment_pinnings(environment, pinnings) 
+def set_environnment_pinnings(environment, pinnings)
 
   pinnings.each do |name,pinning|
     environment.cookbook_versions[name] = pinning
@@ -129,13 +129,13 @@ def cookbooks_used_by(rest, environment)
   nodes = nodes_in(rest, environment)
   nodes.each do |node|
     response = rest.get_rest("/nodes/#{node}").run_list
-    _recipes = response.recipe_names 
+    _recipes = response.recipe_names
     _roles = response.role_names
     recipes = recipes | (if (_recipes==nil) then [] else _recipes end)
     roles = roles | (if (_roles==nil) then [] else _roles end)
   end
   recipes_from_roles = []
-  roles.each do |role| 
+  roles.each do |role|
     run_list = [Chef::RunList::RunListItem.new("role[#{role}]")]
     expansion = Chef::RunList::RunListExpansionFromAPI.new(environment, run_list, rest)
     expansion.expand

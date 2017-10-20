@@ -14,7 +14,7 @@
 
 class Chef
   class Knife
-    # This class implements knife pinnings list ['environment_regex'] ['cookbook_regex']
+    # This class implements knife pinnings compare ['environment_regex'] ['cookbook_regex']
     class PinningsCompare < Chef::Knife
       require 'chef/knife/pinnings_mixin'
       banner 'knife pinnings compare [ENV_REGEX] [COOKBOOK_REGEX]'
