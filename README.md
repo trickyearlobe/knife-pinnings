@@ -1,5 +1,6 @@
 # knife-pinnings
 
+
 This gem extends Chef's knife command to manage version pinnings in your Chef environments
 
 * Set a cookbook pinning explicitly or by using metadata.rb
