@@ -139,7 +139,8 @@ def cookbooks_used_by(rest, environment)
     expansion.expand
     recipes_from_roles = recipes_from_roles | expansion.recipes
   end
-
+  recipes.delete ""
+  recipes_from_roles.delete ""
   (recipes | recipes_from_roles).map { |r| r.split('@').first.split('::').first }
 end
 
