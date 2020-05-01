@@ -144,8 +144,6 @@ def cookbooks_used_by(rest, environment)
   (recipes | recipes_from_roles).map { |r| r.split('@').first.split('::').first }
 end
 
-
-
 def cookbooks_merged_with_version_constraints(cookbooks, cookbook_version_constraints)
   cookbooks_with_contraints = cookbooks.dup
   cookbook_version_constraints.each do |cookbook_version_constraint|
@@ -180,7 +178,7 @@ def solve_recipes(rest, environment, cookbooks_with_contraints)
   response = rest.post_rest("/environments/#{environment}/cookbook_versions",{:run_list => cookbooks_with_contraints})
   solution = Hash.new
   response.sort.each do |name, cb|
-    solution[name]=cb.version
+    solution[name]=cb['version']
   end
   return solution
 end
