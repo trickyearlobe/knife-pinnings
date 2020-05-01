@@ -12,6 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+require 'chef/cookbook/metadata'
+
 class Chef
   class Knife
     # This class implements knife pinnings set <environment> [cookbook version]

@@ -76,12 +76,10 @@ def build_pinnings_table(environments, cookbook_regex)
 end
 
 def set_environnment_pinnings(environment, pinnings)
-
   pinnings.each do |name,pinning|
     environment.cookbook_versions[name] = pinning
   end
   environment.save
-
 end
 
 def add_color(row)
@@ -128,7 +126,7 @@ def cookbooks_used_by(rest, environment)
   roles = []
   nodes = nodes_in(rest, environment)
   nodes.each do |node|
-    response = rest.get_rest("/nodes/#{node}").run_list
+    response=Chef::RunList.new(rest.get_rest("/nodes/#{node}")['run_list'].join(','))
     _recipes = response.recipe_names
     _roles = response.role_names
     recipes = recipes | (if (_recipes==nil) then [] else _recipes end)
@@ -141,8 +139,12 @@ def cookbooks_used_by(rest, environment)
     expansion.expand
     recipes_from_roles = recipes_from_roles | expansion.recipes
   end
+  require 'pry'; binding.pry
+
   (recipes | recipes_from_roles).map { |r| r.split('@').first.split('::').first }
 end
+
+
 
 def cookbooks_merged_with_version_constraints(cookbooks, cookbook_version_constraints)
   cookbooks_with_contraints = cookbooks.dup
