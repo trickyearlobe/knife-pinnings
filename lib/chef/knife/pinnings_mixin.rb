@@ -139,7 +139,6 @@ def cookbooks_used_by(rest, environment)
     expansion.expand
     recipes_from_roles = recipes_from_roles | expansion.recipes
   end
-  require 'pry'; binding.pry
 
   (recipes | recipes_from_roles).map { |r| r.split('@').first.split('::').first }
 end
